@@ -3,56 +3,70 @@ import {CommonModule} from '@angular/common';
 import {BaseService} from '../../services/base_service';
 import {Person} from '../../models/person';
 import {FormsModule} from '@angular/forms';
+import {Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-person',
   templateUrl: './person.component.html',
   styleUrl: './person.component.scss',
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 export class PersonComponent implements OnInit {
   people: Person[] = [];
-  person = {
-    name: '',
-    email: '',
-    type: ''
-  };
+  loading = false;
+  error: string | null = null;
 
-  error: string = '';
-
-  constructor(private service: BaseService) {
+  constructor(private service: BaseService,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.service.getAll('people').subscribe({
-      next: (data) => {
-        console.log('Dados recebidos:', data);
-        this.people = data;
-      },
-      error: (err) => {
-        console.error('Erro:', err);
-        this.error = err.message;
-      }
-    });
+    this.loadPeople();
   }
 
-  create() {
-    this.service.postObject<Person>('people', this.person).subscribe({
+  loadPeople() {
+    this.loading = true;
+    this.error = null;
+
+    this.service.getAll<Person>('people').subscribe({
       next: (response) => {
-        console.log('Pessoa criada com sucesso:', response);
-        this.person = {
-          name: '',
-          email: '',
-          type: ''
-        };
-        this.ngOnInit();
+        this.people = response;
+        this.loading = false;
       },
       error: (error) => {
-        console.error('Erro ao criar pessoa:', error);
-        // Trate o erro adequadamente
+        this.error = 'Erro ao carregar pessoas: ' + error.message;
+        this.loading = false;
       }
     });
 
   }
+
+  viewPerson(person: Person) {
+    // Implementar visualização detalhada
+    console.log('Visualizar pessoa:', person);
+  }
+
+  editPerson(person: Person) {
+    // Implementar edição
+    console.log('Editar pessoa:', person);
+  }
+
+  deletePerson() {
+    // if (confirm('Tem certeza que deseja excluir esta pessoa?')) {
+    //   this.service.deleteObject('people', id).subscribe({
+    //     next: () => {
+    //       this.loadPeople(); // Recarrega a lista
+    //     },
+    //     error: (error) => {
+    //       this.error = 'Erro ao excluir pessoa: ' + error.message;
+    //     }
+    //   });
+    // }
+  }
+
+  createNew() {
+    this.router.navigate(['/person/edit']);
+  }
+
 }
