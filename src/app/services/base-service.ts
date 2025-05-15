@@ -12,7 +12,7 @@ export interface PaginatedResponse<T> {
 
 @Injectable({providedIn: 'root'})
 export class BaseService {
-  private baseUrl: string = 'http://127.0.0.1:8000';
+  private baseUrl: string = 'http://localhost:8000';
   private http = inject(HttpClient);
 
   getAll<T>(endpoint: string) {

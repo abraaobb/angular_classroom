@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BaseService} from '../../services/base_service';
+import {BaseService} from '../../services/base-service';
 import {Person} from '../../models/person';
 import {FormsModule} from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
