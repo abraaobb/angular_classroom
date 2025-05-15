@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Detalhes da Pessoa</h2>
+
+<div mat-dialog-content>
+  <p><strong>ID:</strong> {{ data.person.id }}</p>
+  <p><strong>Nome:</strong> {{ data.person.name }}</p>
+  <p><strong>E-mail:</strong> {{ data.person.email }}</p>
+  <p><strong>Tipo:</strong> {{ data.person.type }}</p>
+  <p><strong>Data de Criação:</strong> {{ data.person.created_at | date: 'short' }}</p>
+  <p><strong>Data de Edição:</strong> {{ data.person.updated_at | date: 'short' }}</p>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Fechar</button>
+</div>

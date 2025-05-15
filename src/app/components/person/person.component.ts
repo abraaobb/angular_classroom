@@ -5,7 +5,8 @@ import {Person} from '../../models/person';
 import {Router} from '@angular/router';
 import {MaterialModule} from '../../modules/material.modules';
 import {DialogService} from '../../services/dialog-service';
-import {PersonEditComponent} from './person-edit/person-edit.component';
+import {MatDialog} from '@angular/material/dialog';
+import {PersonViewDialogComponent} from './person-view-dialog/person-view-dialog.component';
 
 @Component({
   selector: 'app-person',
@@ -26,6 +27,7 @@ export class PersonComponent implements OnInit {
   constructor(
     private service: BaseService,
     private router: Router,
+    private matDialog: MatDialog
   ) {
   }
 
@@ -51,7 +53,10 @@ export class PersonComponent implements OnInit {
   }
 
   viewPerson(person: Person) {
-    console.log('Visualizar pessoa:', person);
+    this.matDialog.open(PersonViewDialogComponent, {
+      width: '500px', // Largura do modal
+      data: {person}, // Passa os dados da pessoa para o modal
+    });
   }
 
   editPerson(person: Person) {

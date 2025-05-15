@@ -1,5 +1,5 @@
 export class BaseModel {
   id?: string;
-  started_at?: Date;
+  created_at?: Date;
   updated_at?: Date;
 }
