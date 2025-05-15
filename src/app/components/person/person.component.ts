@@ -4,6 +4,8 @@ import {BaseService} from '../../services/base-service';
 import {Person} from '../../models/person';
 import {FormsModule} from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
+import {ConfirmModalComponent} from '../base-components/confirm-modal/confirm-modal.component';
+import {ToastService} from '../../services/toast-service';
 
 @Component({
   selector: 'app-person',
@@ -18,7 +20,8 @@ export class PersonComponent implements OnInit {
   error: string | null = null;
 
   constructor(private service: BaseService,
-              private router: Router) {
+              private router: Router,
+              private toastService: ToastService) {
   }
 
   ngOnInit() {
@@ -52,17 +55,27 @@ export class PersonComponent implements OnInit {
     console.log('Editar pessoa:', person);
   }
 
-  deletePerson() {
-    // if (confirm('Tem certeza que deseja excluir esta pessoa?')) {
-    //   this.service.deleteObject('people', id).subscribe({
-    //     next: () => {
-    //       this.loadPeople(); // Recarrega a lista
-    //     },
-    //     error: (error) => {
-    //       this.error = 'Erro ao excluir pessoa: ' + error.message;
+  deletePerson(id: string) {
+    // const modalRef = this.modalService.open(ConfirmModalComponent);
+    // modalRef.componentInstance.message = 'Tem certeza que deseja excluir esta pessoa?';
+    //
+    // modalRef.result.then(
+    //   (result) => {
+    //     if (result) {
+    //       this.service.deleteObject('people', id).subscribe({
+    //         next: () => {
+    //           this.loadPeople(); // Recarrega a lista
+    //           this.toastService.showSuccess('Pessoa excluída com sucesso!');
+    //         },
+    //         error: (error) => {
+    //           this.error = 'Erro ao excluir pessoa: ' + error.message;
+    //         }
+    //       });
     //     }
-    //   });
-    // }
+    //   },
+    //   () => {
+    //   } // Dismiss
+    // );
   }
 
   createNew() {

@@ -29,8 +29,14 @@ export class BaseService {
     );
   }
 
-  postObject<T>(endpoint: string, object: T){
+  postObject<T>(endpoint: string, object: T) {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}/`, object).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  deleteObject(endpoint: string, id: string) {
+    return this.http.delete(`${this.baseUrl}/${endpoint}/${id}/`).pipe(
       catchError(this.handleError)
     )
   }

@@ -1,9 +1,7 @@
-import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine, isMainModule } from '@angular/ssr/node';
+import {CommonEngine, isMainModule} from '@angular/ssr/node';
 import express from 'express';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import bootstrap from './main.server';
+import {dirname, join, resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -34,24 +32,6 @@ app.get(
     index: 'index.html'
   }),
 );
-
-/**
- * Handle all other requests by rendering the Angular application.
- */
-app.get('**', (req, res, next) => {
-  const { protocol, originalUrl, baseUrl, headers } = req;
-
-  commonEngine
-    .render({
-      bootstrap,
-      documentFilePath: indexHtml,
-      url: `${protocol}://${headers.host}${originalUrl}`,
-      publicPath: browserDistFolder,
-      providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-    })
-    .then((html) => res.send(html))
-    .catch((err) => next(err));
-});
 
 /**
  * Start the server if this module is the main entry point.

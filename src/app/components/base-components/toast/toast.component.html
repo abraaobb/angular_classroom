@@ -1,0 +1,16 @@
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <ngb-toast
+    *ngFor="let toast of toasts"
+    [class]="'bg-' + toast.type"
+    [delay]="toast.delay"
+    [autohide]="true"
+    (hidden)="removeToast(toast)"
+  >
+    <div class="d-flex">
+      <div class="toast-body text-white">
+        {{ toast.message }}
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="removeToast(toast)"></button>
+    </div>
+  </ngb-toast>
+</div>
