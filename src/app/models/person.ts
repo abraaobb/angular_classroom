@@ -1,4 +1,4 @@
-import {BaseModel} from './base_model';
+import {BaseModel} from './base-model';
 
 export class Person extends BaseModel {
   static Type = {

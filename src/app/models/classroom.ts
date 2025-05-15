@@ -1,5 +1,5 @@
 import {Person} from './person';
-import {BaseModel} from './base_model';
+import {BaseModel} from './base-model';
 
 class Classroom extends BaseModel {
   name?: string;

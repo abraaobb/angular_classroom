@@ -2,17 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BaseService} from '../../services/base-service';
 import {Person} from '../../models/person';
-import {FormsModule} from '@angular/forms';
-import {Router, RouterModule} from '@angular/router';
-import {ConfirmModalComponent} from '../base-components/confirm-modal/confirm-modal.component';
+import {Router} from '@angular/router';
 import {ToastService} from '../../services/toast-service';
+import {MaterialModule} from '../../modules/material.modules';
 
 @Component({
   selector: 'app-person',
   templateUrl: './person.component.html',
   styleUrl: './person.component.scss',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule]
+  imports: [CommonModule,
+    MaterialModule
+  ]
 })
 export class PersonComponent implements OnInit {
   people: Person[] = [];
