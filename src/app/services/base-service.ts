@@ -35,7 +35,7 @@ export class BaseService {
     )
   }
 
-  deleteObject(endpoint: string, id: string) {
+  deleteObject<T>(endpoint: string, id: string) {
     return this.http.delete(`${this.baseUrl}/${endpoint}/${id}/`).pipe(
       catchError(this.handleError)
     )

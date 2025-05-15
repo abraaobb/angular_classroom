@@ -6,69 +6,66 @@
     </button>
   </div>
 
-  <mat-card class="mat-elevation-z2">
-    <mat-card-content>
-      <table mat-table [dataSource]="people" class="mat-elevation-z0 w-100">
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let person">{{person.id}}</td>
-        </ng-container>
 
-        <!-- Nome Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let person">{{person.name}}</td>
-        </ng-container>
+  <table mat-table [dataSource]="people" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let person">{{ person.id }}</td>
+    </ng-container>
 
-        <!-- Email Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef>Email</th>
-          <td mat-cell *matCellDef="let person">{{person.email}}</td>
-        </ng-container>
+    <!-- Nome Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td mat-cell *matCellDef="let person">{{ person.name }}</td>
+    </ng-container>
 
-        <!-- Tipo Column -->
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef>Tipo</th>
-          <td mat-cell *matCellDef="let person">
-            <mat-chip [ngSwitch]="person.type">
-              <span *ngSwitchCase="'student'" class="primary-chip">Estudante</span>
-              <span *ngSwitchCase="'teacher'" class="success-chip">Professor</span>
-              <span *ngSwitchCase="'staff'" class="info-chip">Funcionário</span>
-              <span *ngSwitchDefault class="default-chip">{{person.type}}</span>
-            </mat-chip>
-          </td>
-        </ng-container>
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let person">{{ person.email }}</td>
+    </ng-container>
 
-        <!-- Ações Column -->
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let person">
-            <button mat-icon-button color="primary" (click)="viewPerson(person)" matTooltip="Visualizar">
-              <mat-icon>visibility</mat-icon>
-            </button>
-            <button mat-icon-button color="accent" (click)="editPerson(person)" matTooltip="Editar">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="deletePerson(person.id!)" matTooltip="Excluir">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+    <!-- Tipo Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Tipo</th>
+      <td mat-cell *matCellDef="let person">
+        <mat-chip [ngSwitch]="person.type">
+          <span *ngSwitchCase="'student'" class="primary-chip">Estudante</span>
+          <span *ngSwitchCase="'teacher'" class="success-chip">Professor</span>
+          <span *ngSwitchCase="'staff'" class="info-chip">Funcionário</span>
+          <span *ngSwitchDefault class="default-chip">{{ person.type }}</span>
+        </mat-chip>
+      </td>
+    </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="['id', 'name', 'email', 'type', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['id', 'name', 'email', 'type', 'actions']"></tr>
-      </table>
+    <!-- Ações Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td mat-cell *matCellDef="let person">
+        <button mat-icon-button color="primary" (click)="viewPerson(person)" matTooltip="Visualizar">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="editPerson(person)" matTooltip="Editar">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deletePerson(person.id!)" matTooltip="Excluir">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-      <!-- Loading spinner -->
-      <div *ngIf="loading" class="loading-spinner">
-        <mat-spinner diameter="40"></mat-spinner>
-      </div>
+    <tr mat-header-row *matHeaderRowDef="['id', 'name', 'email', 'type', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['id', 'name', 'email', 'type', 'actions']"></tr>
+  </table>
 
-      <!-- Error message -->
-      <mat-error *ngIf="error" class="error-message">
-        {{error}}
-      </mat-error>
-    </mat-card-content>
-  </mat-card>
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- Error message -->
+  <mat-error *ngIf="error" class="error-message">
+    {{ error }}
+  </mat-error>
 </div>
