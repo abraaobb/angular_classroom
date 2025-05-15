@@ -5,6 +5,7 @@ import {Person} from '../../models/person';
 import {Router} from '@angular/router';
 import {MaterialModule} from '../../modules/material.modules';
 import {DialogService} from '../../services/dialog-service';
+import {PersonEditComponent} from './person-edit/person-edit.component';
 
 @Component({
   selector: 'app-person',
@@ -54,7 +55,7 @@ export class PersonComponent implements OnInit {
   }
 
   editPerson(person: Person) {
-    console.log('Editar pessoa:', person);
+    this.router.navigate(['/person/edit', person.id]);
   }
 
   deletePerson(id: string) {

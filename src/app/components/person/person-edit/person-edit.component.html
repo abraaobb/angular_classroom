@@ -1,53 +1,41 @@
-<div class="container mt-4">
-  <h2>Nova Pessoa</h2>
+<div class="container">
+  <h2 class="mat-headline-6">Nova Pessoa</h2>
 
   <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label for="name" class="form-label">Nome</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name"
-        formControlName="name"
-        [ngClass]="{'is-invalid': submitted && f['name'].errors}">
-      <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-        <div *ngIf="f['name'].errors['required']">Nome é obrigatório</div>
-      </div>
-    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name" placeholder="Digite o nome">
+      <mat-error *ngIf="f['name'].errors?.['required']">
+        Nome é obrigatório
+      </mat-error>
+    </mat-form-field>
 
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        formControlName="email"
-        [ngClass]="{'is-invalid': submitted && f['email'].errors}">
-      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-        <div *ngIf="f['email'].errors['required']">Email é obrigatório</div>
-        <div *ngIf="f['email'].errors['email']">Email inválido</div>
-      </div>
-    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Digite o email">
+      <mat-error *ngIf="f['email'].errors?.['required']">
+        Email é obrigatório
+      </mat-error>
+      <mat-error *ngIf="f['email'].errors?.['email']">
+        Email inválido
+      </mat-error>
+    </mat-form-field>
 
-    <div class="mb-3">
-      <label for="type" class="form-label">Tipo</label>
-      <select
-        class="form-select"
-        id="type"
-        formControlName="type"
-        [ngClass]="{'is-invalid': submitted && f['type'].errors}">
-        <option value="">Selecione um tipo</option>
-        <option value="student">Estudante</option>
-        <option value="teacher">Professor</option>
-      </select>
-      <div *ngIf="submitted && f['type'].errors" class="invalid-feedback">
-        <div *ngIf="f['type'].errors['required']">Tipo é obrigatório</div>
-      </div>
-    </div>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="">Selecione um tipo</mat-option>
+        <mat-option value="student">Estudante</mat-option>
+        <mat-option value="teacher">Professor</mat-option>
+      </mat-select>
+      <mat-error *ngIf="f['type'].errors?.['required']">
+        Tipo é obrigatório
+      </mat-error>
+    </mat-form-field>
 
-    <div class="mt-4">
-      <button type="submit" class="btn btn-primary me-2">Salvar</button>
-      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+      <button mat-button type="button" (click)="onCancel()">Cancelar</button>
     </div>
   </form>
 </div>

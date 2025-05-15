@@ -41,6 +41,12 @@ export class BaseService {
     )
   }
 
+  putObject<T>(endpoint: string, person: Person) {
+    return this.http.put(`${this.baseUrl}/${endpoint}/`, person).pipe(
+      catchError(this.handleError)
+    )
+  }
+
   private handleError(error: HttpErrorResponse) {
     console.log('Erro detalhado:', error);
 

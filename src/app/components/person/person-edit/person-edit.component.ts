@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {BaseService} from '../../../services/base-service';
 import {Person} from '../../../models/person';
 import {CommonModule} from '@angular/common';
-import {Router, RouterModule} from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {MaterialModule} from '../../../modules/material.modules';
 
 @Component({
   selector: 'app-person-edit',
@@ -11,7 +12,8 @@ import {Router, RouterModule} from '@angular/router';
     FormsModule,
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ],
   templateUrl: './person-edit.component.html',
   styleUrl: './person-edit.component.scss',
@@ -20,10 +22,12 @@ import {Router, RouterModule} from '@angular/router';
 export class PersonEditComponent implements OnInit {
   personForm: FormGroup;
   submitted = false;
+  personId: string | null = null;
 
   constructor(private formBuilder: FormBuilder,
               private service: BaseService,
-              private router: Router
+              private router: Router,
+              private route: ActivatedRoute
   ) {
     this.personForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -34,6 +38,14 @@ export class PersonEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.personId = this.route.snapshot.paramMap.get('id');
+    if (this.personId) {
+      this.service.getObject<Person>('people', this.personId).subscribe({
+        next: (response) => {
+          this.personForm.patchValue(response);
+        }
+      });
+    }
   }
 
   get f() {
@@ -43,23 +55,26 @@ export class PersonEditComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // para se o formulário for inválido
     if (this.personForm.invalid) {
       return;
     }
 
     const person: Person = this.personForm.value;
 
-    this.service.postObject<Person>('people', person).subscribe({
-      next: (response) => {
-        console.log('Pessoa criada com sucesso:', response);
-        this.router.navigate(['/person']); // retorna para a lista
-      },
-      error: (error) => {
-        console.error('Erro ao criar pessoa:', error);
-        // Aqui você pode adicionar uma mensagem de erro para o usuário
-      }
-    });
+    if (this.personId) {
+      this.service.putObject<Person>('people/' + this.personId, person).subscribe({
+        next: () => {
+          this.router.navigate(['/person']);
+        }
+      });
+    } else {
+      this.service.postObject<Person>('people', person).subscribe({
+        next: (response) => {
+          this.router.navigate(['/person']); // Volta para a lista
+        },
+      });
+    }
+
   }
 
   onCancel() {
