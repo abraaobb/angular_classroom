@@ -4,7 +4,7 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nome</mat-label>
       <input matInput formControlName="name" placeholder="Digite o nome">
-      <mat-error *ngIf="f['name'].errors?.['required']">
+      <mat-error *ngIf="formControls['name'].errors?.['required']">
         Nome é obrigatório
       </mat-error>
     </mat-form-field>
@@ -12,10 +12,10 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email" placeholder="Digite o email">
-      <mat-error *ngIf="f['email'].errors?.['required']">
+      <mat-error *ngIf="formControls['email'].errors?.['required']">
         Email é obrigatório
       </mat-error>
-      <mat-error *ngIf="f['email'].errors?.['email']">
+      <mat-error *ngIf="formControls['email'].errors?.['email']">
         Email inválido
       </mat-error>
     </mat-form-field>
@@ -27,7 +27,7 @@
         <mat-option value="student">Estudante</mat-option>
         <mat-option value="teacher">Professor</mat-option>
       </mat-select>
-      <mat-error *ngIf="f['type'].errors?.['required']">
+      <mat-error *ngIf="formControls['type'].errors?.['required']">
         Tipo é obrigatório
       </mat-error>
     </mat-form-field>

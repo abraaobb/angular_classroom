@@ -1,83 +1,76 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Component, inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {MaterialModule} from '../../../modules/material.modules';
 import {BaseService} from '../../../services/base-service';
 import {Person} from '../../../models/person';
-import {CommonModule} from '@angular/common';
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-import {MaterialModule} from '../../../modules/material.modules';
 
 @Component({
   selector: 'app-person-edit',
+  standalone: true,
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     RouterModule,
-    ReactiveFormsModule,
     MaterialModule
   ],
   templateUrl: './person-edit.component.html',
-  styleUrl: './person-edit.component.scss',
-  standalone: true
+  styleUrl: './person-edit.component.scss'
 })
 export class PersonEditComponent implements OnInit {
-  personForm: FormGroup;
-  submitted = false;
-  personId: string | null = null;
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly service = inject(BaseService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
-  constructor(private formBuilder: FormBuilder,
-              private service: BaseService,
-              private router: Router,
-              private route: ActivatedRoute
-  ) {
-    this.personForm = this.formBuilder.group({
+  readonly personForm: FormGroup = this.buildForm();
+  readonly personId: string | null = this.route.snapshot.paramMap.get('id');
+
+  submitted = false;
+
+  ngOnInit(): void {
+    if (this.personId) {
+      this.loadPerson();
+    }
+  }
+
+  private buildForm(): FormGroup {
+    return this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       type: ['', Validators.required]
     });
-
   }
 
-  ngOnInit() {
-    this.personId = this.route.snapshot.paramMap.get('id');
-    if (this.personId) {
-      this.service.getObject<Person>('people', this.personId).subscribe({
-        next: (response) => {
-          this.personForm.patchValue(response);
-        }
-      });
-    }
+  private loadPerson(): void {
+    this.service.getObject<Person>('people', this.personId!).subscribe({
+      next: (person) => this.personForm.patchValue(person)
+    });
   }
 
-  get f() {
+  get formControls() {
     return this.personForm.controls;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
-    if (this.personForm.invalid) {
-      return;
-    }
+    if (this.personForm.invalid) return;
 
     const person: Person = this.personForm.value;
 
-    if (this.personId) {
-      this.service.putObject<Person>('people/' + this.personId, person).subscribe({
-        next: () => {
-          this.router.navigate(['/person']);
-        }
-      });
-    } else {
-      this.service.postObject<Person>('people', person).subscribe({
-        next: (response) => {
-          this.router.navigate(['/person']); // Volta para a lista
-        },
-      });
-    }
+    const request = this.personId
+      ? this.service.putObject<Person>(`people/${this.personId}`, person)
+      : this.service.postObject<Person>('people', person);
 
+    request.subscribe({
+      next: () => this.router.navigate(['/person'])
+    });
   }
 
-  onCancel() {
+  onCancel(): void {
     this.router.navigate(['/person']);
   }
 }

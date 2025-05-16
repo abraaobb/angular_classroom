@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Person} from '../../../models/person';
 import {DatePipe} from '@angular/common';
@@ -14,9 +14,6 @@ import {MaterialModule} from '../../../modules/material.modules';
   styleUrl: './person-view-dialog.component.scss'
 })
 export class PersonViewDialogComponent {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { person: Person } // Recebemos os dados via MAT_DIALOG_DATA
-  ) {
-  }
+  data = inject<{ person: Person }>(MAT_DIALOG_DATA);
 
 }

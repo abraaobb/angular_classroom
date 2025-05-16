@@ -1,7 +1,7 @@
-import {Component, Inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import {MatDialogRef} from '@angular/material/dialog';
+import {Person} from '../../../models/person';
 
 export interface ConfirmDialogData {
   title: string;
@@ -18,7 +18,5 @@ export interface ConfirmDialogData {
   styleUrl: './dialog-confirm.component.scss'
 })
 export class DialogConfirmComponent {
-  constructor(public dialogRef: MatDialogRef<DialogConfirmComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData) {
-  }
+  data = inject<{ person: Person }>(MAT_DIALOG_DATA);
 }
