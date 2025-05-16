@@ -5,7 +5,6 @@ import {Person} from '../../models/person';
 import {Router} from '@angular/router';
 import {MaterialModule} from '../../modules/material.modules';
 import {DialogService} from '../../services/dialog-service';
-import {MatDialog} from '@angular/material/dialog';
 import {PersonViewDialogComponent} from './person-view-dialog/person-view-dialog.component';
 
 @Component({
@@ -18,18 +17,15 @@ import {PersonViewDialogComponent} from './person-view-dialog/person-view-dialog
     MaterialModule
   ]
 })
+
 export class PersonComponent implements OnInit {
+  private service = inject(BaseService);
+  private router = inject(Router);
   private dialog = inject(DialogService);
+
   people: Person[] = [];
   loading = false;
   error: string | null = null;
-
-  constructor(
-    private service: BaseService,
-    private router: Router,
-    private matDialog: MatDialog
-  ) {
-  }
 
   ngOnInit() {
     this.loadPeople();
@@ -53,7 +49,7 @@ export class PersonComponent implements OnInit {
   }
 
   viewPerson(person: Person) {
-    this.matDialog.open(PersonViewDialogComponent, {
+    this.dialog.openDialog(PersonViewDialogComponent, {
       width: '500px', // Largura do modal
       data: {person}, // Passa os dados da pessoa para o modal
     });
@@ -80,7 +76,6 @@ export class PersonComponent implements OnInit {
         })
       }
     });
-
   }
 
   createNew() {
