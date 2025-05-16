@@ -63,15 +63,15 @@ export class PersonComponent implements OnInit {
     this.router.navigate(['/person/edit', person.id]);
   }
 
-  deletePerson(id: string) {
+  deletePerson(person: Person) {
     this.dialog.confirmDialog({
-      title: 'Confirmar Exclusão',
-      message: 'Tem certeza que deseja excluir este registro?',
+      title: 'Confirmar exclusão',
+      message: `Tem certeza que deseja excluir o ${person.name}?`,
       confirmText: 'Excluir',
       cancelText: 'Cancelar'
     }).subscribe(result => {
       if (result) {
-        this.service.deleteObject<Person>('people', id).subscribe({
+        this.service.deleteObject<Person>('people', person.id!).subscribe({
           next: () => {
             this.loadPeople();
           },

@@ -1,6 +1,5 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Person} from '../models/person';
 import {catchError, map, Observable, throwError} from 'rxjs';
 
 export interface PaginatedResponse<T> {
@@ -16,7 +15,7 @@ export class BaseService {
   private http = inject(HttpClient);
 
   getAll<T>(endpoint: string) {
-    return this.http.get<PaginatedResponse<Person>>(`${this.baseUrl}/${endpoint}`).pipe(
+    return this.http.get<PaginatedResponse<T>>(`${this.baseUrl}/${endpoint}`).pipe(
       map(response => response.results),
       catchError(this.handleError)
     );
@@ -41,8 +40,8 @@ export class BaseService {
     )
   }
 
-  putObject<T>(endpoint: string, person: Person) {
-    return this.http.put(`${this.baseUrl}/${endpoint}/`, person).pipe(
+  putObject<T>(endpoint: string, obj: T) {
+    return this.http.put(`${this.baseUrl}/${endpoint}/`, obj).pipe(
       catchError(this.handleError)
     )
   }
