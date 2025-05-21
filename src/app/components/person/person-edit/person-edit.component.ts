@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule} fr
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from '../../../modules/material.modules';
-import {BaseService} from '../../../services/base-service';
+import {BaseService} from '../../../services/base.service';
 import {Person} from '../../../models/person';
 
 @Component({

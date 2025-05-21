@@ -1,0 +1,27 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-title>Login</mat-card-title>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Usuário</mat-label>
+        <input matInput formControlName="username" placeholder="Digite seu usuário">
+        <mat-error *ngIf="formControls['username'].errors?.['required']">
+          O nome de usuário é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Digite sua senha">
+        <mat-error *ngIf="formControls['password'].errors?.['required']">
+          O password é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Entrar
+      </button>
+    </form>
+  </mat-card>
+</div>

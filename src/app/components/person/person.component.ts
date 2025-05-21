@@ -1,10 +1,10 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BaseService} from '../../services/base-service';
+import {BaseService} from '../../services/base.service';
 import {Person} from '../../models/person';
 import {Router} from '@angular/router';
 import {MaterialModule} from '../../modules/material.modules';
-import {DialogService} from '../../services/dialog-service';
+import {DialogService} from '../../services/dialog.service';
 import {PersonViewDialogComponent} from './person-view-dialog/person-view-dialog.component';
 
 @Component({
@@ -67,7 +67,7 @@ export class PersonComponent implements OnInit {
       cancelText: 'Cancelar'
     }).subscribe(result => {
       if (result) {
-        this.service.deleteObject<Person>('people', person.id!).subscribe({
+        this.service.deleteObject('people', person.id!).subscribe({
           next: () => {
             this.loadPeople();
           },
