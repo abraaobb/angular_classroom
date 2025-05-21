@@ -2,11 +2,21 @@
   <h2 mat-dialog-title class="mat-h6">Nova Pessoa</h2>
   <form [formGroup]="personForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Nome</mat-label>
-      <input matInput formControlName="name" placeholder="Digite o nome">
-      <mat-error *ngIf="formControls['name'].errors?.['required']">
-        Nome é obrigatório
+      <mat-label>Apelido</mat-label>
+      <input matInput formControlName="username" placeholder="Digite o nome de usuário">
+      <mat-error *ngIf="formControls['username'].errors?.['required']">
+        Apelido é obrigatório
       </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="first_name" placeholder="Digite o nome">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Sobrenome</mat-label>
+      <input matInput formControlName="last_name" placeholder="Digite o sobrenome">
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -29,6 +39,14 @@
       </mat-select>
       <mat-error *ngIf="formControls['type'].errors?.['required']">
         Tipo é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Digite a senha">
+      <mat-error *ngIf="formControls['password'].errors?.['minlength']">
+        A senha deve ter no mínimo 6 caracteres
       </mat-error>
     </mat-form-field>
 

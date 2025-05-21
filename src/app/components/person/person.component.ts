@@ -19,6 +19,7 @@ import {PersonViewDialogComponent} from './person-view-dialog/person-view-dialog
 })
 
 export class PersonComponent implements OnInit {
+  matColumns = ['id', 'username', 'email', 'type', 'actions']
   private service = inject(BaseService);
   private router = inject(Router);
   private dialog = inject(DialogService);
@@ -62,7 +63,7 @@ export class PersonComponent implements OnInit {
   deletePerson(person: Person) {
     this.dialog.confirmDialog({
       title: 'Confirmar exclusão',
-      message: `Tem certeza que deseja excluir o ${person.name}?`,
+      message: `Tem certeza que deseja excluir o ${person.username}?`,
       confirmText: 'Excluir',
       cancelText: 'Cancelar'
     }).subscribe(result => {

@@ -6,7 +6,10 @@ export class Person extends BaseModel {
     STUDENT: 'student'
   }
 
-  name?: string;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
   email?: string;
   type?: string;
+  password?: string;
 }

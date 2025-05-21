@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from '../../../modules/material.modules';
@@ -38,15 +38,21 @@ export class PersonEditComponent implements OnInit {
 
   private buildForm(): FormGroup {
     return this.formBuilder.group({
-      name: ['', Validators.required],
+      username: ['', Validators.required],
+      first_name: [''],
+      last_name: [''],
       email: ['', [Validators.required, Validators.email]],
-      type: ['', Validators.required]
+      type: ['', Validators.required],
+      password: ['', [Validators.minLength(6)]],
     });
   }
 
   private loadPerson(): void {
     this.service.getObject<Person>('people', this.personId!).subscribe({
-      next: (person) => this.personForm.patchValue(person)
+      next: (person) => {
+        this.personForm.patchValue(person);
+        this.personForm.get('password')?.setValue(''); // não preenche senha
+      }
     });
   }
 
@@ -60,6 +66,10 @@ export class PersonEditComponent implements OnInit {
     if (this.personForm.invalid) return;
 
     const person: Person = this.personForm.value;
+
+    if (!person.password) {
+      delete person.password;
+    }
 
     const request = this.personId
       ? this.service.putObject<Person>(`people/${this.personId}`, person)
